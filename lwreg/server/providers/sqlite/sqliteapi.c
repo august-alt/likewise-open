@@ -1657,7 +1657,7 @@ SqliteDeleteTreeInternal_inlock_inDblock(
     for (iCount = 0; iCount < subKeyCount.dwSubKeyCount; iCount++)
     {
         dwSubKeyLen = MAX_KEY_LENGTH;
-        memset(psubKeyName, 0, MAX_KEY_LENGTH);
+        memset(psubKeyName, 0, MAX_KEY_LENGTH * sizeof(LW_WCHAR));
 
         status = SqliteEnumKeyEx_inDblock(Handle,
                                   hKey,
