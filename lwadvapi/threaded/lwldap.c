@@ -295,7 +295,7 @@ LwLdapOpenDirectoryServerSingleAttempt(
 
     // This creates the ld without immediately connecting to the server.
     // That way a connection timeout can be set first.
-    ld = (LDAP *)ldap_init(pszServerAddress, dwPort);
+    ld = (LDAP *)ldap_init(pszServerName, dwPort);
     if (!ld) {
         dwError = LwMapErrnoToLwError(errno);
         LW_RTL_LOG_ERROR("Failed to open LDAP connection to domain controller");
