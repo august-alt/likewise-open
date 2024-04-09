@@ -434,16 +434,16 @@ SMBGSSContextNegotiate(
 
     dwMajorStatus = gss_init_sec_context(
                         (OM_uint32 *)&dwMinorStatus,
-                        pContext->credHandle,
+                        pContext->state == SMB_GSS_SEC_CONTEXT_STATE_NEGOTIATE ? pContext->credHandle : GSS_C_NO_CREDENTIAL,
                         pContext->pGSSContext,
                         pContext->target_name,
-                        &gss_spnego_mech_oid_desc,
+                        GSS_C_NULL_OID,
                         GSS_C_REPLAY_FLAG | GSS_C_MUTUAL_FLAG |
                         GSS_C_CONF_FLAG |
                         GSS_C_INTEG_FLAG,
                         0,
                         NULL,
-                        &input_desc,
+                        pContext->state == SMB_GSS_SEC_CONTEXT_STATE_NEGOTIATE ? &input_desc : GSS_C_NO_BUFFER,
                         NULL,
                         &output_desc,
                         &ret_flags,
@@ -455,11 +455,15 @@ SMBGSSContextNegotiate(
     {
         case GSS_S_CONTINUE_NEEDED:
 
+            LWIO_LOG_VERBOSE("gss_init_sec_context GSS_S_CONTINUE_NEEDED\n");
+
             pContext->state = SMB_GSS_SEC_CONTEXT_STATE_NEGOTIATE;
 
             break;
 
         case GSS_S_COMPLETE:
+
+            LWIO_LOG_VERBOSE("gss_init_sec_context GSS_S_COMPLETE\n");
 
             pContext->state = SMB_GSS_SEC_CONTEXT_STATE_COMPLETE;
 
