@@ -2964,8 +2964,10 @@ LsaChangeDomainGroupMembership(
                   hConnection,
                   pszTargetProvider,
                   &adminsMods);
-    if ((bEnable && dwError == ERROR_MEMBER_IN_ALIAS) ||
-        (!bEnable && dwError == ERROR_MEMBER_NOT_IN_ALIAS))
+    if ((bEnable && (dwError == ERROR_MEMBER_IN_ALIAS ||
+                     dwError == ERROR_MEMBER_IN_GROUP)) ||
+        (!bEnable && (dwError == ERROR_MEMBER_NOT_IN_ALIAS ||
+                      dwError == ERROR_MEMBER_NOT_IN_GROUP)))
     {
         dwError = 0;
     }
@@ -2975,8 +2977,10 @@ LsaChangeDomainGroupMembership(
                   hConnection,
                   pszTargetProvider,
                   &usersMods);
-    if ((bEnable && dwError == ERROR_MEMBER_IN_ALIAS) ||
-        (!bEnable && dwError == ERROR_MEMBER_NOT_IN_ALIAS))
+    if ((bEnable && (dwError == ERROR_MEMBER_IN_ALIAS ||
+                     dwError == ERROR_MEMBER_IN_GROUP)) ||
+        (!bEnable && (dwError == ERROR_MEMBER_NOT_IN_ALIAS ||
+                      dwError == ERROR_MEMBER_NOT_IN_GROUP)))
     {
         dwError = 0;
     }
