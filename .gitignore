@@ -10,3 +10,6 @@ config.log
 config.status
 config.cache
 staging
+
+release/
+debug_build/
